@@ -60,7 +60,7 @@ jobs:
     steps:
     - uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.SPSECRET }}
     - uses: azure/webapps-deploy@v2
       with:
         app-name: 'whack1devops-dev'
