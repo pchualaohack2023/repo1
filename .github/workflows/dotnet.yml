@@ -68,7 +68,7 @@ jobs:
 
   deploytoWebAppTest:
     runs-on: ubuntu-latest
-    needs: dockerBuildPush
+    needs: [dockerBuildPush,deploytoWebAppDev]
     environment: test
     steps:
     - uses: azure/login@v1
@@ -81,7 +81,7 @@ jobs:
 
   deploytoWebAppProd:
     runs-on: ubuntu-latest
-    needs: dockerBuildPush
+    needs: [dockerBuildPush,deploytoWebAppTest]
     environment: prod
     steps:
     - uses: azure/login@v1
