@@ -63,5 +63,5 @@ jobs:
         creds: ${{ secrets.SPSECRET }}
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: 'whack1devops-dev'
+        app-name: 'p23021devops-dev'
         images: '${{env.registryName}}/${{env.repositoryName}}:${{env.tag}}'
