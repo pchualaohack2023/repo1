@@ -54,7 +54,7 @@ jobs:
     - name: Docker Push
       run: docker push $registryName/$repositoryName:$tag
 
-  deploytoWebApp:
+  deploytoWebAppDev:
     runs-on: ubuntu-latest
     needs: dockerBuildPush
     steps:
@@ -64,4 +64,30 @@ jobs:
     - uses: azure/webapps-deploy@v2
       with:
         app-name: 'p23021devops-dev'
+        images: '${{env.registryName}}/${{env.repositoryName}}:${{env.tag}}'
+
+  deploytoWebAppTest:
+    runs-on: ubuntu-latest
+    needs: dockerBuildPush
+    environment: test
+    steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.SPSECRET }}
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'p23021devops-test'
+        images: '${{env.registryName}}/${{env.repositoryName}}:${{env.tag}}'
+
+  deploytoWebAppProd:
+    runs-on: ubuntu-latest
+    needs: dockerBuildPush
+    environment: prod
+    steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.SPSECRET }}
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'p23021devops-prod'
         images: '${{env.registryName}}/${{env.repositoryName}}:${{env.tag}}'
