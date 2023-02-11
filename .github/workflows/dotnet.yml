@@ -53,3 +53,15 @@ jobs:
 
     - name: Docker Push
       run: docker push $registryName/$repositoryName:$tag
+
+  deploytoWebApp:
+    runs-on: ubuntu-latest
+    needs: dockerBuildPush
+    steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'whack1devops-dev'
+        images: '${{env.registryName}}/${{env.repositoryName}}:${{env.tag}}'
